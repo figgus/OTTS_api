@@ -11,16 +11,13 @@ router.get('/',(req,res,next)=>{
 });
 
 router.get('/api/usuarios',(req,res,next)=>{
-    console.log(usuario);
     const resUsuarios = usuario.find({}).then(
         (result)=>{
-            console.log(result);
             res.status(200).json(result);
         }
     ).catch((err)=>{
         res.status(500);
     });
-    console.log(resUsuarios);
 });
 
 router.post('/api/usuarios',(req,res,next)=>{
@@ -29,14 +26,24 @@ router.post('/api/usuarios',(req,res,next)=>{
         username : req.body.username,
         password :  req.body.password,
     });
-    console.log(usuarioCrear);
     usuarioCrear.save().then((result)=>{
-        console.log(result);
         res.status(200).json({
             message:'usuario creado'
         });
     }).catch((err)=>{
         console.log(err);
+    });
+});
+
+router.post('/api/LoginUsuarios',(req,res,next)=>{
+    const nombre = req.body.username;
+    const password = req.body.password;
+    const resUsuario = usuario.find({username:nombre,password:password}).then(
+        (result)=>{
+            res.status(200).json(result);
+        }
+    ).catch((err)=>{
+        res.status(500).json(err);
     });
 
 
