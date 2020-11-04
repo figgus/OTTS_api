@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 const usuario = require('../models/usuarios');
-
+console.log(mongoose.modelNames());
 router.get('/',(req,res,next)=>{
     res.status(200).json({
         message:'get usuarios'
@@ -21,11 +21,20 @@ router.get('/api/usuarios',(req,res,next)=>{
 });
 
 router.post('/api/usuarios',(req,res,next)=>{
-    const usuarioCrear = new usuario({
+    
+    var model = {
         _id : new mongoose.Types.ObjectId(),
         username : req.body.username,
         password :  req.body.password,
-    });
+        primerNombre: req.body.primerNombre,
+        segundoNombre: req.body.segundoNombre,
+        apellidoPaterno: req.body.apellidoPaterno,
+        apellidoMaterno: req.body.apellidoMaterno,
+        Descripcion: req.body.Descripcion
+    }
+    const usuarioCrear = new usuario(model);
+    
+    
     usuarioCrear.save().then((result)=>{
         res.status(200).json({
             message:'usuario creado'
@@ -33,6 +42,7 @@ router.post('/api/usuarios',(req,res,next)=>{
     }).catch((err)=>{
         console.log(err);
     });
+
 });
 
 router.post('/api/LoginUsuarios',(req,res,next)=>{
