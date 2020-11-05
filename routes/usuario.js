@@ -20,6 +20,16 @@ router.get('/api/usuarios',(req,res,next)=>{
     });
 });
 
+router.get('/api/getConductores',(req,res,next)=>{
+    const resUsuarios = usuario.find({"tipoUsuario.descripcion":'conductor'}).then(
+        (result)=>{
+            res.status(200).json(result);
+        }
+    ).catch((err)=>{
+        res.status(500);
+    });
+});
+
 router.post('/api/usuarios',(req,res,next)=>{
     
     var model = {
@@ -34,7 +44,7 @@ router.post('/api/usuarios',(req,res,next)=>{
     }
     const usuarioCrear = new usuario(model);
     
-    
+
     usuarioCrear.save().then((result)=>{
         res.status(200).json({
             message:'usuario creado'
@@ -55,9 +65,19 @@ router.post('/api/LoginUsuarios',(req,res,next)=>{
     ).catch((err)=>{
         res.status(500).json(err);
     });
+});
 
-
-    
+router.delete('/api/usuarios/:usuarioID',(req,res,next)=>{
+    const userId = mongoose.Types.ObjectId(req.params.usuarioID);
+    console.log(userId);
+    usuario.deleteOne({'_id':userId}).then((result)=>{
+        res.status(200).json(result);
+    }).catch((err)=>{
+        res.status(500).json({
+            error:err
+        });
+    });
+    res.status(500);
 });
 
 
