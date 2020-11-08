@@ -16,20 +16,12 @@ app.use((req,res,next)=>{
 });
 
 app.use(express.json())
-//app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/OTTS', {useUnifiedTopology: true,useNewUrlParser: true});
 const routesUsuarios = require('./routes/usuario');
 app.use(routesUsuarios);
-
-
-
-
-
-//REST API
-
-
 
 
 app.listen(PORT, function () {
